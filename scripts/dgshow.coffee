@@ -11,11 +11,9 @@
 #   hubot dgshow ep[num]- Dave and Gunnar Show Episode <num>
 #   hubot dgshow latest - Most recent Dave and Gunnar Show episode 
 #
-# Authors of xkcd script:
+# Authors:
 #   twe4ked
 #   Hemanth (fixed the max issue)
-#
-# Author of dgshow script:
 #   ghelleks
 
 module.exports = (robot) ->
