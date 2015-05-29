@@ -11,7 +11,7 @@
 #   hubot dgshow ep[num]- Dave and Gunnar Show Episode <num>
 #   hubot dgshow latest - Most recent Dave and Gunnar Show episode 
 #
-# Authors:
+# Author:
 #   twe4ked
 #   Hemanth (fixed the max issue)
 #   ghelleks
