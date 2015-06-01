@@ -12,7 +12,7 @@
 # Commands:
 #   hubot dgshow ep[num]- Dave and Gunnar Show Episode <num>
 #   hubot dgshow latest - Most recent Dave and Gunnar Show episode 
-#   hubot dgshow suggest "<title>" <url> - Add a link to the cutting room floor
+#   hubot dgshow suggest <text> <url> - Add a link to the cutting room floor
 #   hubot dgshow suggestions - Show all the suggestions so far
 #
 # Notes:
@@ -53,7 +53,7 @@ module.exports = (robot) ->
           object = JSON.parse(body)[0]
           msg.send object.link
 
-  robot.respond /dgshow suggest ['"](.*)['"] (.*)/, (msg) ->
+  robot.respond /dgshow suggest (.*) (http.*)/, (msg) ->
       cardName = msg.match[1]
       cardUrl = msg.match[2]
       if not cardName.length
