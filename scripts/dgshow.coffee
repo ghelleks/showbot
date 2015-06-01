@@ -77,7 +77,7 @@ module.exports = (robot) ->
         msg.send "There was an error showing the list."
         return
       msg.send "Suggestions in " + data.name + ":"
-      msg.send "- (" + card.name + ")["+card.desc+"]" for card in data.cards
+      msg.send "- " + card.name + " "+card.desc for card in data.cards
 
 createCard = (msg, cardName, cardUrl) ->
   Trello = require("node-trello")
