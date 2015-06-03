@@ -56,6 +56,7 @@ module.exports = (robot) ->
   robot.respond /dgshow suggest (.*) (http.*)/, (msg) ->
       cardName = msg.match[1]
       cardUrl = msg.match[2]
+      suggester = msg.message.user.name
       if not cardName.length
         msg.send "You must provide a name for the link."
         return
@@ -67,7 +68,7 @@ module.exports = (robot) ->
         msg.send "Error: Trello list ID is not specified"
       if not (process.env.HUBOT_TRELLO_KEY and process.env.HUBOT_TRELLO_TOKEN and process.env.HUBOT_TRELLO_LIST)
          return
-      createCard msg, cardName, cardUrl
+      createCard msg, cardName, cardUrl, suggester
 
   robot.respond /dgshow suggestions/i, (msg) ->
     Trello = require("node-trello")
@@ -79,10 +80,10 @@ module.exports = (robot) ->
       msg.send "Suggestions in " + data.name + ":"
       msg.send "- " + card.name + " "+card.desc for card in data.cards
 
-createCard = (msg, cardName, cardUrl) ->
+createCard = (msg, cardName, cardUrl, suggester) ->
   Trello = require("node-trello")
   t = new Trello(process.env.HUBOT_TRELLO_KEY, process.env.HUBOT_TRELLO_TOKEN)
-  t.post "/1/cards", {name: cardName, desc: cardUrl, idList: process.env.HUBOT_TRELLO_LIST}, (err, data) ->
+  t.post "/1/cards", {name: cardName+" (h/t "+suggester+")", desc: cardUrl, idList: process.env.HUBOT_TRELLO_LIST}, (err, data) ->
     if err
       msg.send "There was an error creating the card"
       return
