@@ -10,9 +10,11 @@
 #   HUBOT_TRELLO_LIST - The list ID that you'd like to create cards for
 #
 # Commands:
+#   hubot dgshow search <text> - First result for <text> in dgshow archives
 #   hubot dgshow ep[num]- Dave and Gunnar Show Episode <num>
 #   hubot dgshow latest - Most recent Dave and Gunnar Show episode 
 #   hubot dgshow suggest <text> <url> - Add a link to the cutting room floor
+#   hubot suggest <text> <url> - Add a link to the cutting room floor
 #   hubot dgshow suggestions - Show all the suggestions so far
 #
 # Notes:
@@ -40,20 +42,16 @@ module.exports = (robot) ->
           object = JSON.parse(body)[0]
           msg.send object.link
 
+  robot.respond /dgshow search (.*)/i, (msg) ->
+    text = "#{msg.match[1]}"
+    showSearch msg, text
+
   robot.respond /dgshow ep(\d+)/i, (msg) ->
     num = "#{msg.match[1]}"
+    showSearch msg, "%23#{num}%3A" 
 
-    msg.http("http://dgshow.org/wp-json/posts?filter[s]=%23#{num}%3A")
-      .get() (err, res, body) ->
-        if res.statusCode == 404
-          msg.send 'Can\'t connect to the Wordpress API.'
-        else if JSON.parse(body).length == 0
-          msg.send "Episode #{num} not found."
-        else
-          object = JSON.parse(body)[0]
-          msg.send object.link
 
-  robot.respond /dgshow suggest (.*) (http.*)/, (msg) ->
+  robot.respond /(?:dgshow )?suggest (.*) (http.*)/i, (msg) ->
       cardName = msg.match[1]
       cardUrl = msg.match[2]
       suggester = msg.message.user.name
@@ -88,3 +86,15 @@ createCard = (msg, cardName, cardUrl, suggester) ->
       msg.send "There was an error creating the card"
       return
     msg.send data.url
+
+showSearch = (msg, searchText) ->
+    msg.http("http://dgshow.org/wp-json/posts?filter[s]="+searchText)
+      .get() (err, res, body) ->
+        if res.statusCode == 404
+          msg.send 'Can\'t connect to the Wordpress API.'
+        else if JSON.parse(body).length == 0
+          msg.send "Episode #{num} not found."
+        else
+          object = JSON.parse(body)[0]
+          msg.send object.link
+  
