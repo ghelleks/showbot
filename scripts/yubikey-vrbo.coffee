@@ -2,23 +2,21 @@
 #   Load a random rental property from VRBO based on emorrise yubikey emissions
 #
 # Dependencies:
-#   None
 #
 # Configuration:
 #   None
 #
 # Commands:
-#   There are no commands
+#   <[0-9]{6}> Six digits yield a vrbo search
 #
 # Author:
 #   nzwulfin
 
-robot.respond /(\d{6}$)/i, (msg) ->
-  num = "#{msg.match[1]}"
+module.exports = (robot) ->
+  robot.hear /^(\d{6})$/i, (msg) ->
+    num = "#{msg.match[0]}"
+    link = "http://www.vrbo.com/#{num}"
 
-  msg.http("http://www.vrbo.com/#{num}")
-    .get() (err, res, body) ->
-      if res.statusCode == 404
-        msg.send 'Property #{num} not found.'
-      else
-        msg.send object.link
+    msg.http(link).get() (err, res, body) ->
+      if res.statusCode == 200
+        msg.send link
