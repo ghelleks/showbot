@@ -1,5 +1,5 @@
 # Description:
-#   Load a random rental property from VRBO based on emorrise yubikey emissions
+#   Load a random rental property from VRBO based on accidental yubikey emissions,probably from emorisse
 #
 # Dependencies:
 #
