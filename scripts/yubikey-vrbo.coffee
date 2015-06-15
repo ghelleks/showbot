@@ -20,3 +20,5 @@ module.exports = (robot) ->
     msg.http(link).get() (err, res, body) ->
       if res.statusCode == 200
         msg.send link
+      if res.statusCode == 404
+        msg.send "No propery results for \"#{num}\", no vacation for you :("
