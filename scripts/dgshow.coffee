@@ -13,8 +13,7 @@
 #   hubot dgshow search <text> - First result for <text> in dgshow archives
 #   hubot dgshow ep[num]- Dave and Gunnar Show Episode <num>
 #   hubot dgshow latest - Most recent Dave and Gunnar Show episode 
-#   hubot dgshow suggest <text> <url> - Add a link to the cutting room floor
-#   hubot suggest <text> <url> - Add a link to the cutting room floor
+#   hubot <text> <url> - Add a link to the cutting room floor
 #   hubot dgshow suggestions - Show all the suggestions so far
 #
 # Notes:
@@ -50,8 +49,7 @@ module.exports = (robot) ->
     num = "#{msg.match[1]}"
     showSearch msg, "%23#{num}%3A" 
 
-
-  robot.respond /(?:dgshow )?suggest (.*) (http.*)/i, (msg) ->
+  robot.hear /(.*) (http.*)/i, (msg) ->
       cardName = msg.match[1]
       cardUrl = msg.match[2]
       suggester = msg.message.user.name
