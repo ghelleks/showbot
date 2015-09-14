@@ -49,7 +49,7 @@ module.exports = (robot) ->
     num = "#{msg.match[1]}"
     showSearch msg, "%23#{num}%3A" 
 
-  robot.hear /(.*\w\t?)(http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+)(?!.)/i, (msg) ->
+  robot.hear /(.*\w\t?)(http[s]?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+)(?!.)/i, (msg) ->
       cardName = msg.match[1]
       cardUrl = msg.match[2]
       suggester = msg.message.user.name
